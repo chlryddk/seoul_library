@@ -8,6 +8,7 @@ import pandas as pd
 from pyecharts.charts import Bar,Pie
 from pyecharts import options as opts
 from streamlit_echarts import st_pyecharts
+import plotly.graph_objects as go
 
 
 def home():
@@ -18,7 +19,7 @@ def home():
     st.divider()
 
     st.markdown("#### 대시보드 기획내용")
-    st.markdown("###### 도서관 분야별 도서 보유 현황과 대출현황을 차트를 통해 시각화하여 분석 후 챗봇에게 추가 구입하는 도서 분야 추천받는 대시보드를 기획하였습니다")
+    st.markdown("###### 도서관 분야별 도서 보유 현황과 대출현황을 차트를 통해 시각화한 후 이 자료를 바탕으로 챗봇에게 추가 구입하는 도서 분야 추천받는 대시보드를 기획하였습니다")
 
 # 장서현황 page
 def lib_status():
@@ -107,7 +108,7 @@ def prefer():
         prefer_loan['분류기호'] = prefer_loan['분류기호'].map(category_mapping)
         category_value = prefer_loan['분류기호'].value_counts().sort_index(ascending=False)
                 
-            # 그래프 그리기
+        # 그래프 그리기
         x = category_value.index.tolist()
         y = category_value.values.tolist()
 
@@ -119,6 +120,27 @@ def prefer():
         )
 
         st_pyecharts(category_chart)
+
+        st.divider()
+
+        st.markdown("##### 인기대출 도서 top10")
+
+        # Figure 생성
+        fig = go.Figure()
+
+        top_10_books = prefer_loan.iloc[:10]
+
+        # 테이블 생성
+        fig.add_trace(go.Table(
+            header = dict(values = list(top_10_books.columns[1:4]),
+                          fill_color = 'paleturquoise',
+                          align='left'),
+            cells=dict(values=[top_10_books.제목, top_10_books.저자, top_10_books.발행처],
+                       fill_color = 'white',
+                       align='left')
+        ))
+
+        st.write(fig)
 
         
 
@@ -244,5 +266,10 @@ def pandas_ai():
     # print(agent.chat('총류 연령대 순위를 알려줘'))
     # print(agent.chat("20대 연령대 안에서 높은 숫자의 이름대로 나열해줘"))
 
-    pass
+
+    txt = """pandas ai 라이브러리 이용하여 연령대별 누적 대출 분야가 많은 순위를 
+    사용자가 질문을 하면 pandasai가 대답해주는 챗봇형식으로 하려하였으나 streamlit에 구현실패하였습니다.
+    pandas ai를 이용한 질의응답 코드는 pages.py 파일 내 주석으로 달아놓았습니다"""
+    
+    st.text(txt)
 
