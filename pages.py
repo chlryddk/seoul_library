@@ -19,8 +19,9 @@ def home():
 
     st.divider()
 
-    st.markdown("#### 대시보드 기획내용")
-    st.markdown("###### 도서관 분야별 도서 보유 현황과 대출현황을 차트를 통해 시각화한 후 이 자료를 바탕으로 챗봇에게 추가 구입하는 도서 분야 추천받는 대시보드를 기획하였습니다")
+    st.markdown("#### 대시보드 초기 기획내용")
+    st.markdown("###### 도서관 분야별 도서 보유 현황과 대출현황을 시각화하여 분야별 장서 분포를 파악하고 실제 현황과 비교하여")
+    st.markdown("###### 추후 도서 추가 구입할 때 챗봇에게 자료를 기반으로 질문을 하여 추가 도서 우선순위를 알려주는 대시보드를 기획하였습니다")
 
 # 장서현황 page
 def lib_status():
@@ -126,17 +127,17 @@ def prefer():
 
         st.markdown("##### 인기대출 도서 top10")
 
-        # Figure 생성
+        
         fig = go.Figure()
 
-        top_10_books = prefer_loan.iloc[:10]
+        top_10_books = prefer_loan.iloc[:10,[1,2,3,6]]
 
         # 테이블 생성
         fig.add_trace(go.Table(
-            header = dict(values = list(top_10_books.columns[1:4]),
+            header = dict(values = list(top_10_books.columns),
                           fill_color = 'paleturquoise',
                           align='left'),
-            cells=dict(values=[top_10_books.제목, top_10_books.저자, top_10_books.발행처],
+            cells=dict(values=[top_10_books.제목, top_10_books.저자, top_10_books.발행처,top_10_books.분류기호],
                        fill_color = 'white',
                        align='left')
         ))
@@ -275,17 +276,17 @@ def pandas_ai():
     st.text(txt)
 
 
-def map():
-    data = pd.read_csv('서울시 공공도서관 현황정보.csv')
+# def map():
+#     data = pd.read_csv('서울시 공공도서관 현황정보.csv')
 
-    map = folium.Map(location=[37.58, 127.0], zoom_start = 11)
+#     map = folium.Map(location=[37.58, 127.0], zoom_start = 11)
 
-    library = data[['도서관명','위도','경도']]
+#     library = data[['도서관명','위도','경도']]
 
-    for _, row in library.iterrows():
-        popup = folium.Popup(row['도서관명'], max_width=200)
-        folium.Marker(location=[row['위도'], row['경도']], popup=popup).add_to(map)
+#     for _, row in library.iterrows():
+#         popup = folium.Popup(row['도서관명'], max_width=200)
+#         folium.Marker(location=[row['위도'], row['경도']], popup=popup).add_to(map)
 
-    map.save('./pl.hitml')
+#     map.save('./pl.hitml')
 
     
