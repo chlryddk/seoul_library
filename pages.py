@@ -14,7 +14,7 @@ import folium
 
 def home():
     st.markdown("## :books: 서울도서관 분야별 장서현황과 대출현황 대시보드 :books:")
-    st.text("서울시 열린데이터 광장에서 공공데이터 정보 받음")
+    # st.text("서울시 열린데이터 광장에서 공공데이터 정보 받음")
     st.page_link('https://data.seoul.go.kr/', label='서울시 열린데이터 광장 홈페이지')
 
     st.divider()
@@ -127,7 +127,7 @@ def prefer():
 
         st.markdown("##### 인기대출 도서 top10")
 
-        
+         
         fig = go.Figure()
 
         top_10_books = prefer_loan.iloc[:10,[1,2,3,6]]

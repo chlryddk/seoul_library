@@ -10,14 +10,14 @@ option_functions = {
     "MAIN" : home,
     "장서현황": lib_status,
     "대출통계": prefer,
-    "연령대별 대출통계(pandas ai)" : pandas_ai
+    "연령대별 대출통계" : pandas_ai
    
 }
 
 
 # 옵션 메뉴 생성
 with st.sidebar:
-    selected_option = option_menu("MENU", ["MAIN","장서현황", "대출통계", "연령대별 대출통계(pandas ai)"], 
+    selected_option = option_menu("MENU", ["MAIN","장서현황", "대출통계", "연령대별 대출통계"], 
                                 icons=['house', 'bi bi-book-fill', "bi bi-book", 'cloud-upload'],
                                 default_index=0 
     )
