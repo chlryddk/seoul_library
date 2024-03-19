@@ -9,6 +9,7 @@ from pyecharts.charts import Bar,Pie
 from pyecharts import options as opts
 from streamlit_echarts import st_pyecharts
 import plotly.graph_objects as go
+import folium
 
 
 def home():
@@ -273,3 +274,18 @@ def pandas_ai():
     
     st.text(txt)
 
+
+def map():
+    data = pd.read_csv('서울시 공공도서관 현황정보.csv')
+
+    map = folium.Map(location=[37.58, 127.0], zoom_start = 11)
+
+    library = data[['도서관명','위도','경도']]
+
+    for _, row in library.iterrows():
+        popup = folium.Popup(row['도서관명'], max_width=200)
+        folium.Marker(location=[row['위도'], row['경도']], popup=popup).add_to(map)
+
+    map.save('./pl.hitml')
+
+    
